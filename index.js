@@ -1,4 +1,6 @@
 const express = require("express");
+var cors = require("cors");
+
 const app = express();
 const port = 3001;
 const Photo = require("./models/Photo");
@@ -17,6 +19,8 @@ mongoose
     console.log(err);
   });
 
+app.use(cors());
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -24,6 +28,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/images", async (req, res) => {
+  console.log(req.body);
   const { url } = req.body;
   const photo = new Photo({ url });
   const photoId = await photo.save().then((doc) => doc.id);
